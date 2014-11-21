@@ -1,0 +1,13 @@
+[Unit]
+Description=Announce Apache worker1
+BindsTo=apache-worker1.service
+
+[Service]
+# GCE/EC2 OK
+#ExecStart=/bin/sh -c "while true; do etcdctl set /services/apache-worker/%n $(hostname -i | sed -r 's/\s+//g'):$(/usr/bin/docker port apache-worker1.service 80 | awk -F: '{print $2}') --ttl 60;sleep 45;done"
+# GCE/EC2/Vagrant all OK
+ExecStart=/bin/sh -c "while true; do etcdctl set /services/apache-worker/%n $(cat /etc/environment | grep COREOS_PRIVATE_IPV4 | awk -F= '{print $2}'):$(/usr/bin/docker port apache-worker1.service 80 | awk -F: '{print $2}') --ttl 60;sleep 45;done"
+ExecStop=/usr/bin/etcdctl rm /services/apache-worker/%n
+
+[X-Fleet]
+X-ConditionMachineOf=apache-worker1.service

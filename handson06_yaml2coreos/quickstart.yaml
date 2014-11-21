@@ -1,0 +1,16 @@
+web:
+  image: ctlc/wordpress
+  ports:
+    - 80:80
+  environment:
+    DB_USER: root
+    DB_PASSWORD: qa1N76pWAri9
+  links:
+    - db
+db:
+  image: ctlc/mysql
+  ports:
+    - 3306:3306
+  environment:
+    MYSQL_DATABASE: wordpress
+    MYSQL_ROOT_PASSWORD: qa1N76pWAri9

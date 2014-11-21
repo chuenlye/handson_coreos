@@ -1,0 +1,16 @@
+[Unit]
+Description=Run web_1
+After=db-ambassador.1.service
+Requires=db-ambassador.1.service
+
+[Service]
+Restart=always
+RestartSec=10s
+ExecStartPre=/usr/bin/docker ps -a -q | xargs docker rm
+ExecStart=/usr/bin/docker run -rm -name web_1 -v /local/path/to/wordpress:/app --link serf_1:serf_1 --link db-ambassador_1:db-ambassador_1 -e "DB_PASSWORD=qa1N76pWAri9" -p 80 ctlc/wordpress-serf
+ExecStartPost=/usr/bin/docker ps -a -q | xargs docker rm
+ExecStop=/usr/bin/docker kill web_1
+ExecStopPost=/usr/bin/docker ps -a -q | xargs docker rm
+
+[Install]
+WantedBy=local.target

@@ -1,0 +1,13 @@
+[Unit]
+Description=app3
+After=docker.service
+Requires=docker.service
+
+[Service]
+ExecStart=/usr/bin/docker run --rm --name bb3 busybox /bin/sh -c "while true; do echo Hello World; sleep 3; done"
+ExecStop=/usr/bin/docker kill bb3
+
+[X-Fleet]
+# wildcard * is OK
+X-Conflicts=app*.service
+

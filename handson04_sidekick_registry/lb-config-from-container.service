@@ -1,0 +1,7 @@
+[Unit]
+Description=Load Balancer Demo2
+
+[Service]
+# in vagrant, docker0's ip is 10.1.42.1, while in EC2 and GCE it is 172.17.42.1, so we need to get docker0's ip from route.
+ExecStart=/usr/bin/docker run --rm --name lb busybox /bin/sh -c "export ETCD=$(ip route get 8.8.8.8 | grep via | awk '{print $3}'):4001; while true; do echo --------- Workers List ----------;for worker in $(wget -O - http://$ETCD/v2/keys/services/apache-worker 2>/dev/null | sed -r 's/,/\\n/g' | grep '\"value\":\"' | awk -F\\\" '{print $4}');do echo $worker; done; sleep 5; done"
+ExecStop=/usr/bin/docker kill lb

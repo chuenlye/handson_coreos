@@ -1,0 +1,16 @@
+[Unit]
+Description=Run ambassador_1
+After=db.1.service
+Requires=db.1.service
+
+[Service]
+Restart=always
+RestartSec=10s
+ExecStartPre=/usr/bin/docker ps -a -q | xargs docker rm
+ExecStart=/usr/bin/docker run -rm -name ambassador_1  --link db_1:db_1  -p 3306:3306 ctlc/ambassador
+ExecStartPost=/usr/bin/docker ps -a -q | xargs docker rm
+ExecStop=/usr/bin/docker kill ambassador_1
+ExecStopPost=/usr/bin/docker ps -a -q | xargs docker rm
+
+[Install]
+WantedBy=local.target

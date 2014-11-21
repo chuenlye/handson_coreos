@@ -1,0 +1,14 @@
+[Unit]
+Description=app4
+After=docker.service
+Requires=docker.service
+
+[Service]
+ExecStart=/usr/bin/docker run --rm --name bb4 busybox /bin/sh -c "while true; do echo Hello World; sleep 3; done"
+ExecStop=/usr/bin/docker kill bb4
+
+[X-Fleet]
+# metadata is setted in fleet's configure file, you can set it with any key=value pair.
+X-ConditionMachineMetadata=zone=tokyo
+X-ConditionMachineMetadata=instancetype=large
+

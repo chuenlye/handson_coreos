@@ -1,0 +1,6 @@
+[Unit]
+Description=Load Balancer Demo
+
+[Service]
+ExecStart=/bin/sh -c "while true; do echo --------- Workers List ----------;for worker in $(etcdctl ls /services/apache-worker/);do etcdctl get $worker; done;sleep 5;done"
+

@@ -1,0 +1,16 @@
+[Unit]
+Description=Run db-ambassador_1
+After=docker.service
+Requires=docker.service
+
+[Service]
+Restart=always
+RestartSec=10s
+ExecStartPre=/usr/bin/docker ps -a -q | xargs docker rm
+ExecStart=/usr/bin/docker run -rm -name db-ambassador_1   -e "DB_PORT_3306_TCP=tcp://192.168.1.52:3306" -p 3306 ctlc/ambassador
+ExecStartPost=/usr/bin/docker ps -a -q | xargs docker rm
+ExecStop=/usr/bin/docker kill db-ambassador_1
+ExecStopPost=/usr/bin/docker ps -a -q | xargs docker rm
+
+[Install]
+WantedBy=local.target

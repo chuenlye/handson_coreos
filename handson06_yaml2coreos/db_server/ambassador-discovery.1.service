@@ -1,0 +1,10 @@
+[Unit]
+Description=Announce ambassador_1
+BindsTo=ambassador.1.service
+
+[Service]
+ExecStart=/bin/sh -c "while true; do etcdctl set /services/ambassador/ambassador_1 '{ \"host\": \"%H\", \"port\": 3306, \"version\": \"52c7248a14\" }' --ttl 60;sleep 45;done"
+ExecStop=/usr/bin/etcdctl rm /services/ambassador/ambassador_1
+
+[X-Fleet]
+X-ConditionMachineOf=ambassador.1.service
