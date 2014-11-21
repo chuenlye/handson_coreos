@@ -7,24 +7,24 @@ At first, write a template file: apache.service.template
 
 and then create several symbolic files pointing to this template file:
 
-  ln -s apache.service.template apache1@80.service
-  ln -s apache.service.template apache2@80.service
-  ln -s apache.service.template apache3@80.service
-  ln -s apache.service.template apache4@8001.service
-  ln -s apache.service.template apache5@8001.service
-  ln -s apache.service.template apache6@8002.service
+      ln -s apache.service.template apache1@80.service
+      ln -s apache.service.template apache2@80.service
+      ln -s apache.service.template apache3@80.service
+      ln -s apache.service.template apache4@8001.service
+      ln -s apache.service.template apache5@8001.service
+      ln -s apache.service.template apache6@8002.service
 
 Next, use fleetctl to launch services:
 
-  $ fleetctl start *.service
-  $ fleetctl list-units
-  UNIT          STATE       LOAD    ACTIVE  SUB DESC        MACHINE
-  apache1@80.service    launched    loaded  active  running Apache Frontend 34aa3ef6.../10.240.152.191
-  apache2@80.service    launched    loaded  active  running Apache Frontend ba04d7eb.../10.240.194.107
-  apache3@80.service    launched    loaded  active  running Apache Frontend cff39c03.../10.240.22.226
-  apache4@8001.service  launched    loaded  active  running Apache Frontend ba04d7eb.../10.240.194.107
-  apache5@8001.service  launched    loaded  active  running Apache Frontend 34aa3ef6.../10.240.152.191
-  apache6@8002.service  launched    loaded  active  running Apache Frontend ba04d7eb.../10.240.194.107
+      $ fleetctl start *.service
+      $ fleetctl list-units
+      UNIT          STATE       LOAD    ACTIVE  SUB DESC        MACHINE
+      apache1@80.service    launched    loaded  active  running Apache Frontend 34aa3ef6.../${IPADDRESS1}
+      apache2@80.service    launched    loaded  active  running Apache Frontend ba04d7eb.../${IPADRESS2}
+      apache3@80.service    launched    loaded  active  running Apache Frontend cff39c03.../${IPADDRESS3}
+      apache4@8001.service  launched    loaded  active  running Apache Frontend ba04d7eb.../${IPADRESS2}
+      apache5@8001.service  launched    loaded  active  running Apache Frontend 34aa3ef6.../${IPADDRESS1}
+      apache6@8002.service  launched    loaded  active  running Apache Frontend ba04d7eb.../${IPADRESS2}
 
 
 #A reference on unit varibles
